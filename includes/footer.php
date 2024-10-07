@@ -1,0 +1,1 @@
+<footer class="bg-dark text-white text-center p-4">Blog 2024 © tous droit réservés</footer>
