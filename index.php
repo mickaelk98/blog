@@ -6,7 +6,7 @@
     <?php require_once "includes/head.php" ?>
 </head>
 
-<body class="flex flex-col h-screen font-poppins">
+<body class="flex flex-col h-screen font-poppins bg-slate-100">
     <?php require_once "includes/header.php" ?>
     <main class="flex-1"></main>
     <?php require_once "includes/footer.php" ?>

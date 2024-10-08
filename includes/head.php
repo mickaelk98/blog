@@ -12,7 +12,8 @@
             extend: {
                 colors: {
                     primary: "#EA2B1F",
-                    secondary: "#01295F",
+                    primaryDark: "#cd1f13",
+                    secondary: "#04e762",
                     light: "#FBFBFB",
                     dark: "#313628"
                 },
