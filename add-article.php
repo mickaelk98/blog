@@ -113,8 +113,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 <div class="flex flex-col my-2">
                     <label class="mb-2" for="category">Categorie</label>
                     <select name="category" id="category" value="<?= $category ?? "" ?>" class="border border-slate-400">
-                        <option value="tecnology">Technologie</option>
-                        <option value="politic">Politique</option>
+                        <option value="tecnologie">Technologie</option>
+                        <option value="politique">Politique</option>
                         <option value="nature">Nature</option>
                         <option value="finance">Finance</option>
                     </select>
