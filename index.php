@@ -60,10 +60,12 @@ if (file_exists($filename)) {
                         <div class="flex flex-row flex-wrap justify-center items-start mb-5">
                             <?php foreach ($articlePerCategories[$cat] as $article): ?>
                                 <article class="flex-[30%] m-2 bg-light shadow-md min-h-[365px] cursor-pointer">
-                                    <div class="overflow-hidden">
-                                        <div class=" bg-[url('<?= $article["image"] ?>')] h-[300px] bg-cover hover:scale-125 transition duration-500"></div>
-                                    </div>
-                                    <h2 class="p-2"><?= $article["title"] ?></h2>
+                                    <a href="/show-article.php?id=<?= $article["id"] ?>">
+                                        <div class="overflow-hidden">
+                                            <div class=" bg-[url('<?= $article["image"] ?>')] h-[300px] bg-cover hover:scale-125 transition duration-500"></div>
+                                        </div>
+                                        <h2 class="p-2"><?= $article["title"] ?></h2>
+                                    </a>
                                 </article>
                             <?php endforeach; ?>
                         </div>
@@ -73,10 +75,12 @@ if (file_exists($filename)) {
                     <div class="flex flex-row flex-wrap justify-center items-start mb-5">
                         <?php foreach ($articlePerCategories[$selectedCat] as $article): ?>
                             <article class="flex-[30%] m-2 bg-light shadow-md min-h-[365px] cursor-pointer">
-                                <div class="overflow-hidden">
-                                    <div class=" bg-[url('<?= $article["image"] ?>')] h-[300px] bg-cover hover:scale-125 transition duration-500"></div>
-                                </div>
-                                <h2 class="p-2"><?= $article["title"] ?></h2>
+                                <a href="/show-article.php?id=<?= $article["id"] ?>">
+                                    <div class="overflow-hidden">
+                                        <div class=" bg-[url('<?= $article["image"] ?>')] h-[300px] bg-cover hover:scale-125 transition duration-500"></div>
+                                    </div>
+                                    <h2 class="p-2"><?= $article["title"] ?></h2>
+                                </a>
                             </article>
                         <?php endforeach; ?>
                     </div>
