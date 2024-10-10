@@ -34,7 +34,10 @@ if (!$id) {
             <h1 class="text-4xl font-bold text-center my-5"><?= $article["title"] ?></h1>
             <p class="m-2 text-xl"><?= $article["content"] ?></p>
         </article>
-        <a class="p-1 rounded bg-secondary text-light self-end mt-2" href="/form-article.php?id=<?= $article["id"] ?>">Modifier l'article</a>
+        <div class="w-full flex flex-row items-center justify-end gap-3">
+            <a class="p-1 rounded bg-primary text-light mt-2" href="/delete-article.php?id=<?= $article["id"] ?>">Supprimer l'article</a>
+            <a class="p-1 rounded bg-secondary text-light mt-2" href="/form-article.php?id=<?= $article["id"] ?>">Modifier l'article</a>
+        </div>
     </main>
     <?php require_once "includes/footer.php" ?>
 </body>
