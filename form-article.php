@@ -13,14 +13,23 @@ $errors = [
     'content' => ''
 ];
 
-$articles = [];
+if (file_exists($filename)) {
+    $articles = json_decode(file_get_contents($filename), true) ?? [];
+}
 
+$_GET = filter_input_array(INPUT_GET, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$id = $_GET['id'] ?? '';
+
+if ($id) {
+    $articleIndex = array_search($id, array_column($articles, "id"));
+    $article = $articles[$articleIndex];
+    $title = $article['title'];
+    $image = $article['image'];
+    $category = $article['category'];
+    $content = $article['content'];
+}
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
-    if (file_exists($filename)) {
-        $articles = json_decode(file_get_contents($filename), true) ?? [];
-    }
-
     $_POST = filter_input_array(INPUT_POST, [
         'title' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
         'image' => FILTER_SANITIZE_URL,
@@ -59,14 +68,20 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     }
 
     if (empty(array_filter($errors, fn($e) => $e !== ''))) {
-        $articles = [...$articles, [
-            'id' => time(),
-            'title' => $title,
-            'image' => $image,
-            'category' => $category,
-            'content' => $content
-        ]];
-
+        if ($id) {
+            $articles[$articleIndex]["title"] = $title;
+            $articles[$articleIndex]["image"] = $image;
+            $articles[$articleIndex]["category"] = $category;
+            $articles[$articleIndex]["contenu"] = $content;
+        } else {
+            $articles = [...$articles, [
+                'id' => time(),
+                'title' => $title,
+                'image' => $image,
+                'category' => $category,
+                'content' => $content
+            ]];
+        }
         file_put_contents($filename, json_encode($articles));
         header('Location: /');
     }
@@ -79,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 <html lang="fr">
 
 <head>
-    <title>Créer un article</title>
+    <title><?= $id ? "Modifier un article" : "Créer un article" ?></title>
     <?php require_once "includes/head.php" ?>
 </head>
 
@@ -87,8 +102,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     <?php require_once "includes/header.php" ?>
     <main class="flex-1 w-full max-w-5xl flex flex-col self-center items-center py-8">
         <div class="bg-light shadow-md p-5 flex flex-col w-[550px]">
-            <h1 class="font-bold text-2xl text-center text-dark mb-5">Ecrire un article</h1>
-            <form action="/add-article.php" method="POST">
+            <h1 class="font-bold text-2xl text-center text-dark mb-5"><?= $id ? "Modifier l'article" : "Créer un article" ?></h1>
+            <form action="/form-article.php<?= $id ? "?id=$id" : "" ?>" method="POST">
                 <!-- Debut titre -->
                 <div class="flex flex-col my-2">
                     <label class="mb-2" for="title">Titre</label>
@@ -112,11 +127,11 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 <!-- Debut categorie -->
                 <div class="flex flex-col my-2">
                     <label class="mb-2" for="category">Categorie</label>
-                    <select name="category" id="category" value="<?= $category ?? "" ?>" class="border border-slate-400">
-                        <option value="tecnologie">Technologie</option>
-                        <option value="politique">Politique</option>
-                        <option value="nature">Nature</option>
-                        <option value="finance">Finance</option>
+                    <select name="category" id="category" class="border border-slate-400">
+                        <option <?= !isset($category) || isset($category) === "technologie" ? "selected" : "" ?> value="technologie">Technologie</option>
+                        <option <?= isset($category) === "politique" ? "selected" : "" ?> value="politique">Politique</option>
+                        <option <?= isset($category) === "nature" ? "selected" : "" ?> value="nature">Nature</option>
+                        <option <?= isset($category) === "finance" ? "selected" : "" ?> value="finance">Finance</option>
                     </select>
                     <?php if ($errors["category"]): ?>
                         <p class="text-red-600 text-center"><?= $errors['category'] ?></p>
@@ -136,7 +151,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
                 <div class="flex flex-row flex-nowrap justify-end gap-2">
                     <a href="/" class="p-1 rounded bg-primary text-light">Annuler</a>
-                    <button class="p-1 rounded bg-secondary text-light">Sauvegarder</button>
+                    <button class="p-1 rounded bg-secondary text-light"><?= $id ? "Modifier" : "Sauvegarder" ?></button>
                 </div>
             </form>
         </div>
